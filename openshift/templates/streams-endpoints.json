@@ -264,6 +264,13 @@
                   {"name": "streams-certs", "mountPath": "/var/run/secrets/streams-endpoint-monitor/streams-certs", "readOnly":true, "optional":true},
                   {"name": "server-auth", "mountPath": "/var/run/secrets/streams-endpoint-monitor/server-auth", "readOnly":true}
                 ],
+                "livenessProbe": {
+                    "initialDelaySeconds": 1,
+                    "periodSeconds": 10,
+                    "exec": {
+                       "command": ["/bin/test", "-f", "/var/opt/streams-endpoint-monitor/monitor.active"]
+                    }
+                },
                 "resources": {
                     "limits": {
                         "memory": "${MEMORY_LIMIT}"

@@ -66,5 +66,11 @@ client_cert = _process_streams_certs()
 
 cfg = FileWriter(location=os.path.join(OPT, 'job-configs'), client_cert=client_cert, signature=_has_signature_secret())
 
-em = EndpointMonitor(endpoint=sws_service, config=cfg, job_filter=job_filter, verify=False)
-em.run()
+    em = EndpointMonitor(endpoint=sws_service, config=cfg, job_filter=job_filter, verify=False)
+
+active_file = os.path.join(OPT, 'monitor.active')
+open(active_file, 'x').close()
+try:
+    em.run()
+finally:
+    os.remove(active_file)
